@@ -21,6 +21,10 @@ read h
 echo '.........................................'
 rm initrd.gz 2> /dev/null
 gzip initrd 2> /dev/null
-cp initrd.gz ./root/isolinux/
-genisoimage -o "$h" -input-charset utf-8 -b "isolinux/isolinux.bin" -no-emul-boot -boot-load-size 4  -boot-info-table "./root"
+mkdir ./root 2> /dev/null
+cp isolinux.bin ./root 2> /dev/null
+cp isolinux.cfg ./root 2> /dev/null
+cp vmlinuz ./root 2> /dev/null
+cp initrd.gz ./root 2> /dev/null
+genisoimage -o "$h" -input-charset utf-8 -b "isolinux.bin" -no-emul-boot -boot-load-size 4  -boot-info-table "./root"
 chmod 777 $h
