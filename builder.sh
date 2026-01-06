@@ -1,30 +1,26 @@
 printf "\033c\n "
 
-                umount /mnt/rams 2> /dev/null
-                rm initrd 2> /dev/null
-                cp init initrd
-                mkdir /mnt/rams 2> /dev/null
-                mount -o loop initrd /mnt/rams
+                mkdir ./tmp/root 2> /dev/null
+                printf "y\n" | rm ./tmp/root/*
+                printf "y\n" | rm ./tmp/root/*.*
 echo '.........................................'
 printf "\033[40;37m\ngive me the files to include in main root ? "
 read a
 for b in $a
 do
-    cp $b /mnt/rams
+    cp $b ./root/
 done
 echo '.........................................'
-chmod 777 /mnt/rams/*
-umount /mnt/rams  2> /dev/null
+
 printf "\033[40;37m\ngive me iso image name ? "
 read h
-
+chmod 777 ./tmp/root/*
 echo '.........................................'
-rm initrd.gz 2> /dev/null
-gzip initrd 2> /dev/null
-mkdir ./root 2> /dev/null
-cp isolinux.bin ./root 2> /dev/null
-cp isolinux.cfg ./root 2> /dev/null
-cp vmlinuz ./root 2> /dev/null
-cp initrd.gz ./root 2> /dev/null
+cp isolinux.bin ./tmp/root 2> /dev/null
+cp isolinux.cfg ./tmp/root 2> /dev/null
+cp vmlinuz ./tmp/root 2> /dev/null
+cp initrd.gz ./tmp/root 2> /dev/null
+chmod 777 ./tmp/root/*
+
 genisoimage -o "$h" -input-charset utf-8 -b "isolinux.bin" -no-emul-boot -boot-load-size 4  -boot-info-table "./root"
 chmod 777 $h
